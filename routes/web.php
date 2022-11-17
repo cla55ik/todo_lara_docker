@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TestWebController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/test/session', [TestWebController::class, 'setSession']);
+Route::get('/test/session/get', [TestWebController::class, 'getSession']);
