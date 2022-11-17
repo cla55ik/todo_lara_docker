@@ -19,5 +19,5 @@ Route::get('/', function () {
 });
 
 
-Route::get('/test/session', [TestWebController::class, 'setSession']);
-Route::get('/test/session/get', [TestWebController::class, 'getSession']);
+Route::post('/test/session', [TestWebController::class, 'setSession']);
+Route::get('/test/session/{name?}', [TestWebController::class, 'getSession']);

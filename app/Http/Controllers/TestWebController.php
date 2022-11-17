@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\SessionService;
+use App\Services\SessionService\SessionObj;
+use App\Services\SessionService\SessionService;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,34 +16,42 @@ class TestWebController extends Controller
 
     /**
      * @param Request $request
+     * @param SessionService $sessionService
      * @return JsonResponse
      */
-    public function setSession(Request $request): JsonResponse
+    public function setSession(Request $request, SessionService $sessionService): JsonResponse
     {
-        $session = $request->session();
-//        $sessionHelper = app('sessionHelper');
-        $session->put(self::SESSION_NAME, 'testData');
+        $name = $request->get('name');
+        $data = $request->get('data');
+        $sessionObj = (new SessionObj())->init($name, $data);
+        $sessionObj = $sessionService->setSessionData($request, $sessionObj);
 
-        return $this->jsonResponse([
-            'result' => true
-        ]);
-    }
-
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function getSession(Request $request, SessionService $sessionService): JsonResponse
-    {
-        $session = $request->session();
-        $sessionService->getSession($request, self::SESSION_NAME);
-
-        if (!$session->has(self::SESSION_NAME)){
+        if ($sessionObj->errorMessage){
             return $this->jsonResponse([
-                'session not found'
+                'result' => $sessionObj->errorMessage
             ]);
         }
 
-        return $this->jsonResponse($session->get(self::SESSION_NAME));
+        return $this->jsonResponse($sessionObj->data);
+    }
+
+    /**
+     * @param string|null $name
+     * @param Request $request
+     * @param SessionService $sessionService
+     * @return JsonResponse
+     */
+    public function getSession(?string $name = null, Request $request, SessionService $sessionService): JsonResponse
+    {
+        $sessionObj = (new SessionObj())->init($name, null);
+        $sessionObj = $sessionService->getSessionData($request, $sessionObj);
+
+        if ($sessionObj->errorMessage){
+            return $this->jsonResponse([
+                'result' => $sessionObj->errorMessage
+            ]);
+        }
+
+        return $this->jsonResponse($sessionObj->data);
     }
 }

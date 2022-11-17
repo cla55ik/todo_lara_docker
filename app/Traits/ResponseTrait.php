@@ -8,7 +8,7 @@ trait ResponseTrait
 {
     /**
      * @param mixed $data
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     private function jsonResponse(mixed $data): JsonResponse
     {

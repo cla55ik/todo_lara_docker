@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Helpers\HelperInterface;
 use App\Helpers\SessionHelper;
-use App\Services\SessionService;
+use App\Services\SessionService\SessionService;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 
