@@ -41,7 +41,7 @@ class TestWebController extends Controller
      * @param SessionService $sessionService
      * @return JsonResponse
      */
-    public function getSession(?string $name = null, Request $request, SessionService $sessionService): JsonResponse
+    public function getSession(Request $request, SessionService $sessionService, ?string $name = null): JsonResponse
     {
         $sessionObj = (new SessionObj())->init($name, null);
         $sessionObj = $sessionService->getSessionData($request, $sessionObj);

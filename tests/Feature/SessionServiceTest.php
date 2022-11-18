@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Request;
+use Mockery\Mock;
 use Tests\TestCase;
 
 class SessionServiceTest extends TestCase
@@ -13,9 +15,12 @@ class SessionServiceTest extends TestCase
      *
      * @return void
      */
-    public function test_emty_session()
+    public function test_api_session_response()
     {
-        $response = $this->get('/test/session/asd');
+        $response = $this->withoutExceptionHandling()->get('/test/session/');
         $response->assertStatus(200);
+
+        $response = $this->get('/test/session/asd');
+        $response->assertStatus(404);
     }
 }
