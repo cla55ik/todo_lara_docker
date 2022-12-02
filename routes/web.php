@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TestRedisController;
 use App\Http\Controllers\TestWebController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,4 @@ Route::get('/', function () {
 
 Route::post('/test/session', [TestWebController::class, 'setSession']);
 Route::get('/test/session/{name?}', [TestWebController::class, 'getSession']);
+Route::get('/test/redis', [TestRedisController::class, 'redisTest']);

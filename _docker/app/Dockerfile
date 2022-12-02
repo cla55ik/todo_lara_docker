@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
       libzip-dev \
       zip unzip \
       git && \
+      docker-php-ext-install pdo && \
       docker-php-ext-install pdo_mysql && \
       docker-php-ext-install bcmath && \
       docker-php-ext-install gd && \
@@ -15,6 +16,13 @@ RUN apt-get update && apt-get install -y \
       rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY ./_docker/app/php.ini /usr/local/etc/php/conf.d/php.ini
+
+ENV PHPREDIS_VERSION 3.0.0
+
+RUN mkdir -p /usr/src/php/ext/redis \
+    && curl -L https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz | tar xvz -C /usr/src/php/ext/redis --strip 1 \
+    && echo 'redis' >> /usr/src/php-available-exts \
+    && docker-php-ext-install redis \
 
 # Install composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
