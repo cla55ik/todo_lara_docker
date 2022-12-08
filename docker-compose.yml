@@ -37,9 +37,9 @@ services:
 
   redis:
       image: redis:alpine
-      command: redis-server /usr/local/etc/redis/redis.conf --requirepass mypassword
       volumes:
           - ./_docker/redis/redis.conf/:/usr/local/etc/redis/redis.conf
+      command: redis-server /usr/local/etc/redis/redis.conf --requirepass mypassword
       ports:
-          - "6389:6379"
+          - "6379:6379"
       container_name: todolara_redis
